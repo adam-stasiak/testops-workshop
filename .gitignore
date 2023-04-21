@@ -1,0 +1,16 @@
+bitnami/**
+localEnvironment_ex/testlink/**
+.env
+**/screenshots/**
+**/node_modules/**
+users/**
+war/**
+updates/**
+secrets/**
+**/cypress/videos/**
+**/mariadb/**
+**/testlink/**
+**/mariadb_data/**
+**/testlink_data/**
+**/mysql_db/**
+**/cypress.env.json

@@ -1,0 +1,19 @@
+{
+    "name": "cypress_examples",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cypress": "^12.12.0"
+    },
+    "devDependencies": {
+        "@cypress/webpack-preprocessor": "^5.17.1",
+        "cypress-plugin-snapshots": "^1.4.4",
+        "typescript": "^5.0.4"
+    }
+}
