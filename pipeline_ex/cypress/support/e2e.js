@@ -16,29 +16,15 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-import { ExecutionStatus, ExecutionType } from 'testlink-xmlrpc/build/constants';
-import { CypressTestlink } from '../../testlinkAgent';
-import { ClickupHelper } from '../../clickupAgent'
 
-const buildUrl = Cypress.env("BUILD_URL")
-const registerCypressGrep = require('@cypress/grep')
-registerCypressGrep()
-const testlink = new CypressTestlink(Cypress.env())
-const clickup = new ClickupHelper(Cypress.env())
-const testlinkEnabled = Cypress.env('TESTLINK_ENABLED')
-    /**
-     * Action performed before specific testcase is executed
-     * Block checks whether grep library decided to execute this
-     * And if yes that means we should mark execution type as Automated
-     */
+
+/**
+ * Action performed before specific testcase is executed
+ * Block checks whether grep library decided to execute this
+ * And if yes that means we should mark execution type as Automated
+ */
 
 Cypress.on('test:before:run', async(test) => {
-    const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
-
-    if (testlinkEnabled) {
-        const executionType = (test.retries < 0) ? ExecutionType.MANUAL : ExecutionType.AUTOMATED
-        await testlink.setTestCaseExecutionType(testId, executionType)
-    }
 
 })
 
@@ -51,30 +37,5 @@ Cypress.on('test:before:run', async(test) => {
  */
 
 Cypress.on('test:after:run', async(test, runnable) => {
-    const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
-    const testTitle = test.title
-    const lastTestTry = test.final
-    let notes = ''
-    if (testlinkEnabled) {
-        let testlinkExecutionStatus;
-        switch (test.state) {
-            case 'passed':
-                testlinkExecutionStatus = ExecutionStatus.PASSED
-                break;
-            case 'failed':
-                testlinkExecutionStatus = ExecutionStatus.FAILED
-                break;
-        }
-        if (lastTestTry) {
-            if (testlinkExecutionStatus === ExecutionStatus.FAILED) {
-                const ticketMessage = `${test.err.message} failed at: ${buildUrl}`
-                const isDuplicate = await clickup.checkDuplicate(testId, testTitle)
-                if (isDuplicate === false) {
-                    notes = await clickup.createTask(testId, testTitle, ticketMessage)
-                }
 
-            }
-        }
-        await testlink.setTestCaseExecutionResult(testId, testlinkExecutionStatus, notes)
-    }
 });

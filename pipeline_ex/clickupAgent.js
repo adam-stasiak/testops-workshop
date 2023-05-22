@@ -1,6 +1,6 @@
 import axios from "axios";
-const teamId = '2501903'
-const listId = '900501311040'
+const teamId = ''
+const listId = ''
 const baseUrl = 'https://api.clickup.com/api/v2/'
     /**
      * This class helps with new ticket creation on clickup
@@ -23,17 +23,7 @@ class ClickupHelper {
          * @return {string} url of newly created ticket
          */
     async createTask(testTag, testName, testDescription) {
-        try {
-            let data = {
-                "name": `${testName}`,
-                "description": `${testDescription}`,
-                "tags": [`${testTag}`]
-            }
-            const response = await axios.post(`${baseUrl}list/${listId}/task?custom_task_ids=true&team_id=${teamId}`, data, this.config)
-            return response.data.url
-        } catch (error) {
-            console.error('Error while new card creation:', error.message);
-        }
+
     };
     /**
      * Get duplicates of testTag testName pair
@@ -42,8 +32,6 @@ class ClickupHelper {
      * @return {map} map of "testTag url" strings 
      */
     async getDuplicates(testTag, testName) {
-            const response = await axios.get(`${baseUrl}team/${teamId}/task?tags[]=${testTag.toLowerCase()}&name=${testName}`, this.config)
-            return response.data.tasks.filter(x => x.name === testName).map(x => `${x.name} ${x.url}`)
 
         }
         /**
@@ -53,18 +41,7 @@ class ClickupHelper {
          * @return {boolean} true if duplicate exists
          */
     async checkDuplicate(testTag, testName) {
-        try {
-            const duplicates = await this.getDuplicates(testTag, testName)
-            if (duplicates[0] === undefined) {
-                return false
-            } else {
-                return true
-            }
 
-
-        } catch (error) {
-            console.error('Error while checking duplicates', error.message);
-        }
     };
 }
 
