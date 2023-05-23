@@ -5,7 +5,7 @@ class HomePage {
   };
 
   navigate() {
-    cy.visit('/');
+    cy.visit('https://example.cypress.io/');
   }
 }
 export default HomePage;

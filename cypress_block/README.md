@@ -15,12 +15,87 @@ This folder contains exercices related to cypress area.
 - [ ] Using this interface create page object for homePage under the same directory
 - [ ] Write test under e2e/interfacePageObject directory. Test should navigate to homepage and verify header visibility
 
-### Inheritance Page Object
+### Advanced Page Object
 
-- [ ] Implement PageBase class under pages/inheritancePageObject directory. Class should include methods
-      visit and clickButton. Please implement these method with these requirements: - visit should consume string argument with address - clickButton should consume Chainable element
-- [ ] Implement HomePage class under pages/inheritancePageObject directory. Class should extends PageBase class and contain field elements with map of 'path' and 'button'(chainable) map.
-- [ ] Write test under e2e/inheritancePageObject directory. Test should navigate to homepage and click button
+- [ ] Implement basic page object for login page on 'https://www.saucedemo.com/'
+- [ ] Implement test steps to make scenario (without page objects yet):
+  - login
+  - add Backpack item to basket
+  - verify price visibility on listing
+  - open basket
+  - verify price and quantity visibility on basket
+  - go to checkout
+- [ ] Prepare page objects:
+  - item.ts
+  ```
+  class Item {
+  title: string;
+  constructor(title: string) {
+    this.title = title;
+  }
+  elements = {
+    container: () =>
+      cy
+        .contains(this.title)
+        .parentsUntil('.inventory_item')
+        .parent(),
+    title: () => this.elements.container().find('.inventory_item_name'),
+    summary: () => this.elements.container().find('.inventory_item_desc'),
+  };
+    }
+    export default Item;
+  ```
+
+* itemBar.ts
+
+```
+class ItemBar {
+parent: Cypress.Chainable<JQuery<HTMLElement>>;
+constructor(parent: Cypress.Chainable<JQuery<HTMLElement>>) {
+  this.parent = parent;
+}
+elements = {
+  price: () => this.parent.find('.inventory_item_price'),
+  addToBaskedButton: () =>
+    this.parent.find('[data-test^="add-to-cart-sauce-labs-"]'),
+  removeFromBasketButton: () =>
+    this.parent.find('[data-test^="remove-sauce-labs-"]'),
+};
+
+addToBasket() {
+  this.elements.addToBaskedButton().click();
+}
+  }
+  export default ItemBar;
+```
+
+Once you have ItemBar you can add this object into already created item:
+`class Item { title: string; constructor(title: string) { this.title = title; } elements = { container: () => cy .contains(this.title) .parentsUntil('.inventory_item') .parent(), title: () => this.elements.container().find('.inventory_item_name'), summary: () => this.elements.container().find('.inventory_item_desc'), }; bar = () => new ItemBar(this.elements.container()); } export default Item;`
+
+- listingItem.ts
+
+  ```
+  import Item from './item';
+
+  class ListingItem extends Item {
+  constructor(title: string) {
+      super(title);
+  }
+  listingSpecificElements = {
+      picture: () => this.elements.container().find('.inventory_item_img'),
+  };
+  }
+
+  export default ListingItem;
+  ```
+
+The same way implement rest of items:
+
+- listingPage.ts
+- basketItem.ts
+- basketPage.ts
+- [ ] Use page objects in your test
+- [ ] Parametrize test to use the same code for Backpack and Bike Light
 
 ## Iframe exercise
 

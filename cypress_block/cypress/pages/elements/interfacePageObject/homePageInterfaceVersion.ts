@@ -7,7 +7,7 @@ class HomePage implements AppPage {
     };
   }
   visit(): void {
-    cy.visit('/');
+    cy.visit('https://example.cypress.io/');
   }
   getHeader(): Cypress.Chainable<JQuery<HTMLElement>> {
     return this.elements().header();

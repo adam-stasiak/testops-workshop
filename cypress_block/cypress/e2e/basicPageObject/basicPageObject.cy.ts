@@ -1,5 +1,5 @@
+import HomePage from 'cypress/pages/elements/basicPageObject/homePage';
 import UtilitiesPage from 'cypress/pages/elements/basicPageObject/utilitiesPage';
-import HomePage from '../../pages/elements/basicPageObject/homePage';
 
 describe('Basic Page Object', () => {
   let homePage: HomePage = new HomePage();
