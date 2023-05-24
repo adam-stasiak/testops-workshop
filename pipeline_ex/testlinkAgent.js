@@ -17,15 +17,17 @@ function getRandomInt(min, max) {
  * @return {string} json ready to write to cypress.env.json file with testlink configuration
  */
 async function makeTestlinkBuildForGivenSuites(planName = "New Plan", buildName = `Build${getRandomInt(1, 2000)}`) {
+    // create test plan
     const testlink = new CypressTestlink(env)
-    const testPlanId = await testlink.createTestPlan(planName)
+    testPlanId = await testlink.createTestPlan(planName)
 
-    const buildId = await testlink.createBuild(testPlanId,buildName)
+    // create build under test plan
+    buildId = await testlink.createBuild(testPlanId,buildName)
 
-    const testcases = testlink.getTestCasesInSuite()
-
-    await testlink.addTestCaseToTestPlan(testPlanId,testcases)
-
+    // retrieve test cases for given suites
+    testCases = await testlink.getTestCasesInSuite()
+    // assign test cases to plan
+    await testlink.addTestCaseToTestPlan(testPlanId,testCases)
         // return config data for cypress
     return JSON.stringify({
         "TESTLINK_PROJECT_ID": testlink.projectId,
