@@ -115,7 +115,7 @@ pipeline {
                                                 \"${TESTLINK_PLAN_NAME}\" \
                                                 \"${params.TESTLINK_FORCED_BUILD_ID}\"
                                             """,label: "Prepare Config", returnStdout: true)
-                                        env.REPORT_ID = params.TESTLINK_FORCED_BUILD_ID
+                                        env.REPORT_ID = BUILD_ID
                                     }
                                     else {
                                 testlinkConfig = sh(
