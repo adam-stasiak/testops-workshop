@@ -1,7 +1,7 @@
 /* groovylint-disable DuplicateStringLiteral, NoDef */
 
 def suiteMap = [
-    "Smoke Suite": '2',
+    "Smoke Suite": '3',
     "Sanity Suite": '70',
     "Regression Suite": '71'
 ]
