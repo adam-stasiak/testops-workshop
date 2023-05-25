@@ -4,7 +4,7 @@ const env = Object.assign(require('./cypress.env.json'), process.env)
 
 const { CypressTestlink } = require('./testlinkAgent')
 const testlinkEnabled = env.TESTLINK_ENABLED || process.env.TESTLINK_ENABLED
-const jenkinsBuildId = env.TESTLINK_BUILD_ID || process.env.TESTLINK_BUILD_ID
+const jenkinsBuildId = env.BUILD_ID || process.env.BUILD
 const testlink = new CypressTestlink(env);
 
 async function retrieveTestCasesForTestPlan() {

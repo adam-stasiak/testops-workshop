@@ -22,12 +22,12 @@ async function makeTestlinkBuildForGivenSuites(planName = "New Plan", buildName 
     testPlanId = await testlink.createTestPlan(planName)
 
     // create build under test plan
-    buildId = await testlink.createBuild(testPlanId, buildName)
+    buildId = await testlink.createBuild(testPlanId,buildName)
 
     // retrieve test cases for given suites
     testCases = await testlink.getTestCasesInSuite()
-        // assign test cases to plan
-    await testlink.addTestCaseToTestPlan(testPlanId, testCases)
+    // assign test cases to plan
+    await testlink.addTestCaseToTestPlan(testPlanId,testCases)
         // return config data for cypress
     return JSON.stringify({
         "TESTLINK_PROJECT_ID": testlink.projectId,
