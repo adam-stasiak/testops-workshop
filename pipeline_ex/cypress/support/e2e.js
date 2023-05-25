@@ -33,9 +33,10 @@ const testlinkEnabled = Cypress.env('TESTLINK_ENABLED')
      */
 
 Cypress.on('test:before:run', async(test) => {
-    const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
+    
 
     if (testlinkEnabled) {
+        const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
         const executionType = (test.retries < 0) ? ExecutionType.MANUAL : ExecutionType.AUTOMATED
         await testlink.setTestCaseExecutionType(testId, executionType)
     }
@@ -51,11 +52,12 @@ Cypress.on('test:before:run', async(test) => {
  */
 
 Cypress.on('test:after:run', async(test, runnable) => {
-    const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
-    const testTitle = test.title
-    const lastTestTry = test.final
-    let notes = ''
+    
     if (testlinkEnabled) {
+        const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
+        const testTitle = test.title
+        const lastTestTry = test.final
+        let notes = ''
         let testlinkExecutionStatus;
         switch (test.state) {
             case 'passed':

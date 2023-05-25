@@ -24,7 +24,7 @@ def getTestsSummary(file="results/${REPORT_ID}-test-output.xml") {
     def awkCommand = { position -> "awk -F \'\"\' \'NR==2 {print \$${position}}\' ${file}" }
     def failuresCount = sh(script:"${awkCommand(8)}", returnStdout:true)
     def totalCount = sh(script:"${awkCommand(6)}", returnStdout:true)
-    def passedCount = totalCount - failuresCount
+    def passedCount = sh(script:"echo \$((${totalCount}-${failuresCount}))", returnStdout:true)
     return [totalCount: totalCount, failuresCount: failuresCount, passedCount: passedCount]
 }
 
@@ -144,7 +144,7 @@ pipeline {
                                                             description: "Jenkins Pipeline Build for ${params.TESTLINK_PLAN_NAME}",
                                                             footer: "\
                                                                 Total tests: ${summary.totalCount} \
-                                                                Failures: ${summary.failures} \
+                                                                Failures: ${summary.failuresCount} \
                                                                 Passed: ${summary.passedCount}",
                                                             link:   BUILD_URL,
                                                             result: currentBuild.currentResult,
