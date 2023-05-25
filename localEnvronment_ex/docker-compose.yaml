@@ -28,9 +28,14 @@ services:
     environment:
       - TESTLINK_USERNAME=admin
       - TESTLINK_PASSWORD=admin
+      - TESTLINK_API_ENABLED=true
       - TESTLINK_EMAIL=admin@admin.com
       - TESTLINK_DATABASE_USER=admin
       - TESTLINK_DATABASE_PASSWORD=admin
+      - TESTLINK_SMTP_HOST=smtp.gmail.com
+      - TESTLINK_SMTP_PORT=587
+      - TESTLINK_SMTP_USER=aaa@aaa.com
+      - TESTLINK_SMTP_PASSWORD=your_password
     user: root
     ports:
       - '80:8080'

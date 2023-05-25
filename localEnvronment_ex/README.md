@@ -67,11 +67,16 @@ For physical storage we need to mount volume. Let's make it under './mysql_db:/b
 For testlink let's use image 'bitnami/testlink:1.9.20-debian-10-r301'. Define environment variables:
 
 ```
-      TESTLINK_USERNAME=admin
-      TESTLINK_PASSWORD=admin
-      TESTLINK_EMAIL=admin@admin.com
-      TESTLINK_DATABASE_USER=admin
-      TESTLINK_DATABASE_PASSWORD=admin
+     TESTLINK_USERNAME=admin
+     TESTLINK_PASSWORD=admin
+     TESTLINK_API_ENABLED=true
+     TESTLINK_EMAIL=admin@admin.com
+     TESTLINK_DATABASE_USER=admin
+     TESTLINK_DATABASE_PASSWORD=admin
+     TESTLINK_SMTP_HOST=smtp.gmail.com
+     TESTLINK_SMTP_PORT=587
+     TESTLINK_SMTP_USER=aaa@aaa.com
+     TESTLINK_SMTP_PASSWORD=your_password
 ```
 
 Add also parameters:
