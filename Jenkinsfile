@@ -134,7 +134,7 @@ pipeline {
 
                                     try {
                                 sh(
-                                            script: "cypress run")
+                                            script: "CYPRESS_TESTLINK_TOKEN=${TESTLINK_TOKEN} CYPRESS_CLICKUP_TOKEN=${CLICKUP_TOKEN} cypress run")
                                             
                                     }
                                     catch (err) {
