@@ -8,23 +8,40 @@ pipeline {
     stages {
         stage('build app'){
             steps {
+                script {
+                    echo 1
+
+                }
 
             }
         }
         stage('launch app'){
             steps {
+                  script {
+                    echo 2
+                }
+
                 
             }
         }
         stage('ru tests') {
             steps {
+                  script {
+                      echo 3
+                    
+                }
+
                 
             }
         }
     }
     post {
         always {
-            
+              script {
+                    echo 4
+                }
+
+
         }
 
     }
