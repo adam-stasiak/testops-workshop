@@ -1,6 +1,8 @@
+import ItemBar from "./itemBar";
+
 class Item {
   private title: string;
-  constructor(title: string = 'Backpack') {
+  constructor(title: string) {
     this.title = title;
   }
 
@@ -9,7 +11,7 @@ class Item {
       container: () => cy.contains(this.title).parentsUntil('.inventory_item').parent(),
       title: () => this.elements().container().find('.inventory_item_name'),
       summary: () => this.elements().container().find('.inventory_item_desc'),
-      bar: () => {}
+      bar: () => new ItemBar(this.elements().container())
     };
   }
 }

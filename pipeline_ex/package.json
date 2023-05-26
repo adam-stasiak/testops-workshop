@@ -12,6 +12,7 @@
         "@cypress/grep": "^3.1.5",
         "axios": "^1.4.0",
         "babel-polyfill": "^6.26.0",
+        "cypress-grep": "^3.0.4",
         "mocha-list": "^1.0.1",
         "run-func": "^3.0.0",
         "testlink-xmlrpc": "^2.1.0"

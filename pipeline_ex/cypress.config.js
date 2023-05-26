@@ -8,7 +8,7 @@ const jenkinsBuildId = env.BUILD_ID || process.env.BUILD
 const testlink = new CypressTestlink(env);
 
 async function retrieveTestCasesForTestPlan() {
-    return 'tbd'
+    return testlink.retrieveTestCasesForTestPlan()
 }
 
 const resolvedConfig = retrieveTestCasesForTestPlan().then((testCases) => {
@@ -23,6 +23,11 @@ const resolvedConfig = retrieveTestCasesForTestPlan().then((testCases) => {
         screenshotOnRunFailure: true,
         e2e: {
             setupNodeEvents(on, config) {
+                if (testlinkEnabled === true){
+                    const extracted = Object.values(testCases).map(result => result[0]['full_external_id']).join(' ')
+                    config.env.grepTags = extracted
+                    config.env.testlinkEnabled = testlinkEnabled
+                }
                 return config
             },
         },

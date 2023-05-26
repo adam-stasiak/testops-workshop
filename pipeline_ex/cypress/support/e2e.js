@@ -14,10 +14,15 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+import { ExecutionStatus } from 'testlink-xmlrpc/build/constants'
+import { CypressTestlink } from '../../testlinkAgent'
+import { ClickupHelper } from '../../clickupAgent'
 import './commands'
-
-
-
+const registerCypressGrep = require('@cypress/grep')
+registerCypressGrep()
+const testlinkEnabled = Cypress.env('TESTLINK_ENABLED')
+const testlink = new CypressTestlink(Cypress.env())
+const clickup = new ClickupHelper(Cypress.env())
 /**
  * Action performed before specific testcase is executed
  * Block checks whether grep library decided to execute this
@@ -37,5 +42,40 @@ Cypress.on('test:before:run', async(test) => {
  */
 
 Cypress.on('test:after:run', async(test, runnable) => {
+    if(testlinkEnabled) {
+        const testId = test._testConfig.unverifiedTestConfig.tags.toLowerCase()
+        const testTitle = test.title
+        const testFinal = test.final
+        const testCypressStatus = test.state
+        let testlinkExecutionStatus;
+        let notes;
+        switch(testCypressStatus){
+            case 'passed':
+                testlinkExecutionStatus = ExecutionStatus.PASSED
+                break;
+            case 'failed':
+                testlinkExecutionStatus = ExecutionStatus.FAILED
+                break;
+        }
+        if (testFinal) {
+            if (testlinkExecutionStatus === ExecutionStatus.FAILED){
+                const isDuplicate = await clickup.checkDuplicate(testId,testTitle)
+                if (isDuplicate === false) {
+                    notes = await clickup.createTask(testId,testTitle,test.err.message)
+                    await testlink.setTestCaseExecutionResult(testId,testlinkExecutionStatus,notes)
+                }
+                else {
+                    await testlink.setTestCaseExecutionResult(testId,testlinkExecutionStatus,notes)
+                }
+
+            }
+            else {
+                await testlink.setTestCaseExecutionResult(testId,testlinkExecutionStatus,notes)
+            }
+            
+        }
+        
+
+    }
 
 });
