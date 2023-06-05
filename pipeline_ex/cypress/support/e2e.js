@@ -16,7 +16,16 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+import { ExecutionStatus,ExecutionType } from 'testlink-xmlrpc/build/constants';
+import { CypressTestlink } from '../../testlinkAgent';
+import { ClickupHelper } from '../../clickupAgent'
 
+const buildUrl = Cypress.env("BUILD_URL")
+const registerCypressGrep = require('@cypress/grep')
+registerCypressGrep()
+const testlink = new CypressTestlink(Cypress.env())
+const clickup = new ClickupHelper(Cypress.env())
+const testlinkEnabled = Cypress.env('TESTLINK_ENABLED')
 
 /**
  * Action performed before specific testcase is executed
