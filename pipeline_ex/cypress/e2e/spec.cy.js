@@ -1,6 +1,9 @@
 describe('Pipeline spec', async() => {
-
-
+    it('test docker compose',async () => {
+        expect(1).to.be.eq(1)
+        cy.visit('/hello')
+    })
+    
     it('tp1', async() => {
         expect(1).to.be.eq(1)
 
